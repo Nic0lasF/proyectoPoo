@@ -6,13 +6,16 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 public class Recompensa {
-    private char tipoRecompensa; //D = CuponDescuento || B = bono || C = canasta 
+  private char tipoRecompensa; //D = CuponDescuento || B = bono || C = canasta 
   private Date fechaCaducidad; // Limite de tiempo para que caduque el cupon
   private int puntosParaCanjear;
+  private int idRecompensa;
   private Operaciones operaciones = new Operaciones();
+  
   //Constructor
-  public Recompensa(char tipoRecompensa, Date fechaCaducidad, int puntosParaCanjear)
+  public Recompensa(int id, char tipoRecompensa, Date fechaCaducidad, int puntosParaCanjear)
   {
+    this.idRecompensa = id;
     this.tipoRecompensa = tipoRecompensa;
     this.fechaCaducidad = fechaCaducidad;
     this.puntosParaCanjear = puntosParaCanjear;
@@ -27,12 +30,14 @@ public class Recompensa {
   {
     this.fechaCaducidad = fechaCaducidad;
   }
-  public Recompensa()
-  {
-    ;
+ 
+  public Recompensa(){}
+
+
+  public int getIdRecompensa(){
+    return this.idRecompensa;
   }
 
-  //Accesores
   public char getTipoRecompensa(){
     return this.tipoRecompensa;
   }
@@ -46,6 +51,11 @@ public class Recompensa {
   }
   
   //Mutadores
+
+  public void setIdRecompensa(int idRecompensa) {
+      this.idRecompensa = idRecompensa;
+  }
+
   public void setTipoRecompensa(char tipo){
     this.tipoRecompensa = tipo;
   }
@@ -60,7 +70,12 @@ public class Recompensa {
   //Metodos
   public String crearRecompensa(){
     Scanner entrada = new Scanner(System.in);
-    String fechaEntrada = null;
+    String fechaEntrada;
+    
+    do{
+      System.out.println("Ingrese el id de la Recompensa Numero MAYOR A -1");
+      this.idRecompensa= operaciones.ValidarInt();
+    }while((this.idRecompensa <= 0));
     
     System.out.println("Ingrese tipo de Recompensa");
     do{
@@ -70,28 +85,19 @@ public class Recompensa {
     }while((tipoRecompensa != 'D') && (tipoRecompensa != 'B') && (tipoRecompensa != 'C'));
     
     System.out.println("Ingrese fecha de caducidad en formato dd/MM/yyyy");
-    
-    Date fecha = null;
-    
-    while(fecha == null){
-        fechaEntrada = entrada.next();
-        try {
-          fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
-        } catch (ParseException e){
-          e.printStackTrace();
-          if(fecha == null){
-            System.out.println("Dato no válido, ingrese nuevamente");
-        }
-        }    
+    fechaEntrada = entrada.next();
+    try {
+      Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
+      this.fechaCaducidad = fecha;
+    } catch (ParseException e){
+      e.printStackTrace();
     }
-    this.fechaCaducidad = fecha;
-    
     do{
       System.out.println("Ingrese el valor para canjear la recompensa (maximo 10000)");
       this.puntosParaCanjear = operaciones.ValidarInt();
     }while(puntosParaCanjear<= 0 && puntosParaCanjear >10000);
 
-    return (this.tipoRecompensa+";"+fechaEntrada+";"+this.puntosParaCanjear);
+    return (this.idRecompensa+";"+this.tipoRecompensa+";"+fechaEntrada+";"+this.puntosParaCanjear);
   }
   
   public void verRecompensa(){
