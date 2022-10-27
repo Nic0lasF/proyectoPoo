@@ -16,7 +16,6 @@ public class Administrador extends Usuario{
         
         setNombreUsuario(nombreUsuario);
         setClave(clave);
-        
     }
     
     

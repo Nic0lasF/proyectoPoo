@@ -10,28 +10,15 @@ Alan Baeza
 import Colecciones.*;
 import Interfaz.*;
 import java.util.ArrayList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 
 // Metodo sobrecarga en Clase: Recompensa y usuario.
 
 public class Poo{
-
+  public static Operaciones op = new Operaciones();
   public static ArrayList<Mision> coleccionMisiones = new ArrayList<>(); // total de misiones que pueden ser escogidas para el usuario
   public static ArrayList<Recompensa> coleccionRecompensas = new ArrayList<>();
 
   public static void main(String[] args) {
-
     System.out.println("----CARGANDO DATOS----");
     cargarDatos();
     System.out.println("....");
@@ -244,20 +231,20 @@ public class Poo{
     Mision mision = new Mision();
     String datos = mision.crearMision();
     coleccionMisiones.add(mision);
-    guardarDatos(datos,"misiones");
+    op.guardarDatos(datos,"misiones");
   }
 
   public static void agregarRecompensa() {
     Recompensa recompensa = new Recompensa();
     String datos = recompensa.crearRecompensa();
     coleccionRecompensas.add(recompensa);
-    guardarDatos(datos,"recompensas");
+    op.guardarDatos(datos,"recompensas");
   }
 
   public static void cargarDatos() {
-    if(validarArchivo("misiones") == true){
+    if(op.validarArchivo("misiones") == true){
       System.out.println("Cargando misiones...");
-      cargarMis();
+      op.cargarMis();
       if (coleccionMisiones != null){
       System.out.println("Misiones cargadas correctamente!");
       }
@@ -266,9 +253,9 @@ public class Poo{
       }
     }
     System.out.println("");
-    if(validarArchivo("recompensas") == true){
+    if(op.validarArchivo("recompensas") == true){
       System.out.println("Cargando recompensas...");
-      cargarRec();
+      op.cargarRec();
       if (coleccionRecompensas != null){
         System.out.println("Recompensas cargadas correctamente!");
       }
@@ -276,89 +263,6 @@ public class Poo{
         System.out.println("Ocurrió un error al cargar las recompensas");
       }
     }
-  }
-
-  public static void cargarRec(){
-    // RECOMPENSAS
-    try {
-      BufferedReader archivo = new BufferedReader(new FileReader("src/test/recompensas.txt")); // loader/reader archivo
-
-      String linea; // Linea actual
-      while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
-        // System.out.println(linea);
-        String[] campos = linea.split(";"); // separar lineas en partes
-        Date fecha = new SimpleDateFormat("dd/mm/yyyy").parse(campos[1]);
-        coleccionRecompensas.add(new Recompensa(campos[0].charAt(0), fecha, Integer.parseInt(campos[2])));
-      }
-    } catch (FileNotFoundException ex) {
-      Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException e) {
-      System.out.println(e);
-    } catch (ParseException e) {
-      System.out.println(e);
-    }
-  }
-
-  public static void cargarMis() {
-    // MISIONES
-    try {
-      BufferedReader archivo = new BufferedReader(new FileReader("src/test/misiones.txt")); // loader/reader archivo
-
-      String linea; // Linea actual
-      while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
-        // System.out.println(linea);
-        String[] campos = linea.split(";"); // separar lineas en partes
-        coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]),Integer.parseInt(campos[1]), campos[2].charAt(0),Boolean.parseBoolean(campos[3]), Integer.parseInt(campos[4])));
-      }
-    } catch (FileNotFoundException ex) {
-      Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException e) {
-      System.out.println(e);
-    }
-  }
-
-  public static void guardarDatos(String datos, String nombre){
-    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
-    File archivo = new File(ruta); //load archivo
-    
-    if(!archivo.exists()){
-      try{
-        archivo.createNewFile();
-      } catch (IOException e) {
-      System.out.println(e);
-      }
-      try{
-        FileWriter escritor = new FileWriter(archivo,true);
-        PrintWriter lapiz = new PrintWriter(escritor);
-        lapiz.print(datos);
-        lapiz.close();
-      } catch(IOException e){
-        System.out.println(e);
-      }
-    }
-    else{
-    try{
-      FileWriter escritor = new FileWriter(archivo,true);
-      PrintWriter lapiz = new PrintWriter(escritor);
-      lapiz.println("");
-      lapiz.print(datos);
-      lapiz.close();
-      
-    } catch (IOException e) {
-      System.out.println(e);
-    }
-    }
-  }
-  
-  public static boolean validarArchivo(String nombre){
-    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
-    File archivo = new File(ruta); //load archivo
-    
-    if(!archivo.exists()){ //Validar
-        System.out.println("no existe");
-        return false;
-    }
-    return true;
   }
 }
 

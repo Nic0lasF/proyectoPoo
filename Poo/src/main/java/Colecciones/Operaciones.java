@@ -1,9 +1,21 @@
 package Colecciones;
 
+import com.mycompany.poo.Poo;
+import static com.mycompany.poo.Poo.coleccionMisiones;
+import static com.mycompany.poo.Poo.coleccionRecompensas;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;  
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Operaciones {
     public static Scanner Entrada = new Scanner(System.in);    
@@ -11,7 +23,9 @@ public class Operaciones {
     public Operaciones(){
         
     }
-
+    
+//-----------------------Operaciones de validacion------------------------------
+    
   public int ValidarRol(){
     
     String cadena = Entrada.next();
@@ -76,6 +90,91 @@ public class Operaciones {
     }
 
     return fecha;
+  }
+
+//-----------------------Operaciones de Entrada/Salida--------------------------
+
+  public void cargarRec(){
+    // RECOMPENSAS
+    try {
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/recompensas.txt")); // loader/reader archivo
+
+      String linea; // Linea actual
+      while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
+        // System.out.println(linea);
+        String[] campos = linea.split(";"); // separar lineas en partes
+        Date fecha = new SimpleDateFormat("dd/mm/yyyy").parse(campos[1]);
+        coleccionRecompensas.add(new Recompensa(campos[0].charAt(0), fecha, Integer.parseInt(campos[2])));
+      }
+    } catch (FileNotFoundException ex) {
+      Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException e) {
+      System.out.println(e);
+    } catch (ParseException e) {
+      System.out.println(e);
+    }
+  }
+
+  public void cargarMis() {
+    // MISIONES
+    try {
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/misiones.txt")); // loader/reader archivo
+
+      String linea; // Linea actual
+      while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
+        // System.out.println(linea);
+        String[] campos = linea.split(";"); // separar lineas en partes
+        coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]),Integer.parseInt(campos[1]), campos[2].charAt(0),Boolean.parseBoolean(campos[3]), Integer.parseInt(campos[4])));
+      }
+    } catch (FileNotFoundException ex) {
+      Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException e) {
+      System.out.println(e);
+    }
+  }
+
+  public void guardarDatos(String datos, String nombre){
+    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
+    File archivo = new File(ruta); //load archivo
+    
+    if(!archivo.exists()){
+      try{
+        archivo.createNewFile();
+      } catch (IOException e) {
+      System.out.println(e);
+      }
+      try{
+        FileWriter escritor = new FileWriter(archivo,true);
+        PrintWriter lapiz = new PrintWriter(escritor);
+        lapiz.print(datos);
+        lapiz.close();
+      } catch(IOException e){
+        System.out.println(e);
+      }
+    }
+    else{
+    try{
+      FileWriter escritor = new FileWriter(archivo,true);
+      PrintWriter lapiz = new PrintWriter(escritor);
+      lapiz.println("");
+      lapiz.print(datos);
+      lapiz.close();
+      
+    } catch (IOException e) {
+      System.out.println(e);
+    }
+    }
+  }
+  
+  public boolean validarArchivo(String nombre){
+    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
+    File archivo = new File(ruta); //load archivo
+    
+    if(!archivo.exists()){ //Validar
+        System.out.println("no existe");
+        return false;
+    }
+    return true;
   }
   
 }  
