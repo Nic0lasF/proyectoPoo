@@ -94,6 +94,8 @@ public class Cliente extends Usuario{
   //Crear datos
   @Override
  public void crearUsuario(){
+     
+    System.out.println("--------CREANDO NUEVA CUENTA--------");
     
     System.out.println("Ingrese su nombre");
     this.nombre = operaciones.ValidarCadenaAlfa();
@@ -104,10 +106,8 @@ public class Cliente extends Usuario{
     System.out.println("Ingrese su fecha de nacimiento con formato dd/MM/yyyy");
     this.fechaDeNacimiento = operaciones.ValidarFecha();
     
-    System.out.println("Ingrese su nombre de usuario");
-    String nombreUsuario = operaciones.ValidarCadenaAlfa();
-    System.out.println("Ingrese su contraseña");
-    String clave = operaciones.ValidarCadenaAlfa();
+    String nombreUsuario = operaciones.ValidarNUsuario();
+    String clave = operaciones.ValidarClave();
         
     setNombreUsuario(nombreUsuario);
     setClave(clave);

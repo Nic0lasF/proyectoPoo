@@ -1,21 +1,24 @@
 package Usuarios;
 
-import java.util.Scanner;
+import Colecciones.Operaciones;
 
 public class Administrador extends Usuario{
     
-    Scanner entrada = new Scanner(System.in);
+    Operaciones operaciones = new Operaciones();
     
    
     @Override
     public void crearUsuario(){
-        System.out.println("Ingrese su nombre de usuario");
-        String nombreUsuario = entrada.next();
-        System.out.println("Ingrese su contraseña");
-        String clave = entrada.next();
+        
+        System.out.println("--------CREANDO NUEVA CUENTA DE ADMINISTRADOR--------");
+        
+        String nombreUsuario = operaciones.ValidarNUsuario();
+        
+        String clave = operaciones.ValidarClave();
         
         setNombreUsuario(nombreUsuario);
         setClave(clave);
+        
     }
     
     
