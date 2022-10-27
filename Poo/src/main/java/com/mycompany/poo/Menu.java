@@ -8,9 +8,8 @@ Alan Baeza
 
 //Utilities
 import Colecciones.*;
-import Usuarios.*;
+import Interfaz.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -25,24 +24,27 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 // Metodo sobrecarga en Clase: Recompensa y usuario.
-public class Menu{
+
+public class Menu {
 
   public static ArrayList<Mision> coleccionMisiones = new ArrayList<>(); // total de misiones que pueden ser escogidas para el usuario
   public static ArrayList<Recompensa> coleccionRecompensas = new ArrayList<>();
 
   public static void main(String[] args) {
+
     System.out.println("----CARGANDO DATOS----");
     cargarDatos();
     System.out.println("....");
     System.out.println(" ");
-
+    
     // Recompensa recompensa = new Recompensa();
     int verificador;
     int tipoRol;
-    Scanner entrada = new Scanner(System.in);
-    
     Operaciones operaciones = new Operaciones(); 
     
+//Declaramos la Interzas
+    InterfazInicioSesion Interfaz = new InterfazInicioSesion();
+    Interfaz.setVisible(true);
     
     System.out.println("Ingrese 1 para entrar en modo administrador");
     System.out.println("Ingrese 2 para entrar como visitante");
@@ -50,14 +52,10 @@ public class Menu{
     tipoRol = operaciones.ValidarRol();
     
     while (tipoRol == 1) {
-      System.out.println("----Usted ingresó como administrador----");
       System.out.println("----Bienvenida/o al Menu----");
       System.out.println("Ingrese el número de la opción a realizar");
       System.out.println("1. Agregar Elemento");
-      System.out.println("2. Ver Elementos");
-      System.out.println("3. Modificar Elemento");
-      System.out.println("4. Eliminar Elemento");
-      System.out.println("5. Buscar Elemento");
+      System.out.println("2. Ver Elemento");
       System.out.println("0. Salir");
       System.out.println(" ");
       verificador = operaciones.ValidarInt();
@@ -95,7 +93,7 @@ public class Menu{
               break;
             // DEF
             default:
-              System.out.println("Hubo un error, inténtelo de nuevo");
+              System.out.println("Hubo un error, intentelo denuevo");
               System.out.println(" ");
               break;
           }
@@ -140,90 +138,14 @@ public class Menu{
               break;
             // DEF
             default:
-              System.out.println("Hubo un error, inténtelo denuevo");
-              System.out.println(" ");
-              break;
-          }
-          break;
-        //MODIFICAR
-        case 3:
-          System.out.println("¿Que desea modificar?");
-          System.out.println("1. Misiones");
-          System.out.println("2. Recompensas");
-          System.out.println("0. Volver al menú");
-          System.out.println(" ");
-          verificador = operaciones.ValidarInt();
-          switch (verificador) {
-            // MENU
-            case 0:
-              break;
-            // MISIONES
-            case 1:
-              break;
-            // RECOMPENSAS
-            case 2:
-              break;
-            // DEF
-            default:
-              System.out.println("Hubo un error, inténtelo de nuevo");
-              System.out.println(" ");
-              break;
-          }
-          break;
-        //ELIMINAR
-        case 4:
-          System.out.println("¿Que desea eliminar?");
-          System.out.println("1. Misiones");
-          System.out.println("2. Recompensas");
-          System.out.println("0. Volver al menú");
-          System.out.println(" ");
-          verificador = operaciones.ValidarInt();
-          switch (verificador) {
-            // MENU
-            case 0:
-              break;
-            // MISIONES
-            case 1:
-              break;
-            // RECOMPENSAS
-            case 2:
-              break;
-            // DEF
-            default:
-              System.out.println("Hubo un error, inténtelo de nuevo");
-              System.out.println(" ");
-              break;
-          }
-          break;
-        //BUSCAR
-        case 5:
-          System.out.println("¿Que desea buscar?");
-          System.out.println("1. Misiones");
-          System.out.println("2. Recompensas");
-          System.out.println("0. Volver al menú");
-          System.out.println(" ");
-          verificador = operaciones.ValidarInt();
-          switch (verificador) {
-            // MENU
-            case 0:
-              break;
-            // MISIONES
-            case 1:
-              
-              break;
-            // RECOMPENSAS
-            case 2:
-              break;
-            // DEF
-            default:
-              System.out.println("Hubo un error, inténtelo de nuevo");
+              System.out.println("Hubo un error, intentelo denuevo");
               System.out.println(" ");
               break;
           }
           break;
         // DEF
         default:
-          System.out.println("Número introducido erróneo, intentelo de nuevo");
+          System.out.println("Numero introducido erroneo, intentelo denuevo");
           System.out.println(" ");
           break;
       }
@@ -234,9 +156,8 @@ public class Menu{
       System.out.println("Lamentamos informar que este modo se encuentra en desarrollo, gracias por su comprension");
     }
 
-    entrada.close();
     System.out.println("-----------FIN-----------");
-    
+
   }
 
   public static void agregarMision() {
@@ -254,33 +175,16 @@ public class Menu{
   }
 
   public static void cargarDatos() {
-    if(validarArchivo("misiones") == true){
-      System.out.println("Cargando misiones...");
-      cargarMis();
-      if (coleccionMisiones != null){
-      System.out.println("Misiones cargadas correctamente!");
-      }
-      else{
-        System.out.println("Ocurrió un error al cargar las misiones");
-      }
-    }
-    System.out.println("");
-    if(validarArchivo("recompensas") == true){
-      System.out.println("Cargando recompensas...");
-      cargarRec();
-      if (coleccionRecompensas != null){
-        System.out.println("Recompensas cargadas correctamente!");
-      }
-      else{
-        System.out.println("Ocurrió un error al cargar las recompensas");
-      }
-    }
+    System.out.println("Cargando misiones...");
+    cargarMis();
+    System.out.println("Cargando recompensas...");
+    cargarRec();
   }
 
   public static void cargarRec(){
     // RECOMPENSAS
     try {
-      BufferedReader archivo = new BufferedReader(new FileReader("data/recompensas.txt")); // loader/reader archivo
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/recompensas.txt")); // loader/reader archivo
 
       String linea; // Linea actual
       while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
@@ -289,7 +193,6 @@ public class Menu{
         Date fecha = new SimpleDateFormat("dd/mm/yyyy").parse(campos[1]);
         coleccionRecompensas.add(new Recompensa(campos[0].charAt(0), fecha, Integer.parseInt(campos[2])));
       }
-      archivo.close();
     } catch (FileNotFoundException ex) {
       Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException e) {
@@ -302,19 +205,18 @@ public class Menu{
   public static void cargarMis() {
     // MISIONES
     try {
-      BufferedReader archivo = new BufferedReader(new FileReader("data/misiones.txt")); // loader/reader archivo
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/misiones.txt")); // loader/reader archivo
 
       String linea; // Linea actual
       while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
         // System.out.println(linea);
         String[] campos = linea.split(";"); // separar lineas en partes
-        coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]),Integer.parseInt(campos[1]), campos[2].charAt(0),Boolean.parseBoolean(campos[3]), Integer.parseInt(campos[4])));
+        coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]), campos[1].charAt(0),Boolean.parseBoolean(campos[2]), Integer.parseInt(campos[3])));
       }
-      archivo.close();
     } catch (FileNotFoundException ex) {
-      Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(Menuw.class.getName()).log(Level.SEVERE, null, ex);
     } catch (IOException e) {
-      System.out.println(e);  
+      System.out.println(e);
     }
   }
 
@@ -328,37 +230,17 @@ public class Menu{
       } catch (IOException e) {
       System.out.println(e);
       }
-      try{
-        FileWriter escritor = new FileWriter(archivo,true);
-        PrintWriter lapiz = new PrintWriter(escritor);
-        lapiz.print(datos);
-        lapiz.close();
-      } catch(IOException e){
-        System.out.println(e);
-      }
     }
-    else{
     try{
       FileWriter escritor = new FileWriter(archivo,true);
       PrintWriter lapiz = new PrintWriter(escritor);
       lapiz.println("");
       lapiz.print(datos);
+
       lapiz.close();
       
     } catch (IOException e) {
       System.out.println(e);
     }
-    }
-  }
-
-  public static boolean validarArchivo(String nombre){
-    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
-    File archivo = new File(ruta); //load archivo
-    
-    if(!archivo.exists()){ //Validar
-        System.out.println("no existe");
-        return false;
-    }
-    return true;
   }
 }

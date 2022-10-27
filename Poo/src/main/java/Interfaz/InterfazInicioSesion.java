@@ -43,15 +43,28 @@ public class InterfazInicioSesion extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, 20));
 
         IniciarSesion.setText("Iniciar Sesion");
+        IniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IniciarSesionMouseClicked(evt);
+            }
+        });
         getContentPane().add(IniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, -1, -1));
 
-        Usuario.setText("Ingrese Usuario");
+        Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsuarioActionPerformed(evt);
+            }
+        });
         getContentPane().add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 150, -1));
 
-        Contrasenya.setText("jPasswordField1");
+        Contrasenya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ContrasenyaActionPerformed(evt);
+            }
+        });
         getContentPane().add(Contrasenya, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 150, -1));
 
-        Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoInterfaz1.jpg"))); // NOI18N
+        Fondo.setIcon(new javax.swing.ImageIcon("C:\\Users\\gadia\\Documents\\NetBeansProjects\\Poo\\src\\main\\java\\Imagenes\\FondoInterfaz1.jpg")); // NOI18N
         getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -60,13 +73,19 @@ public class InterfazInicioSesion extends javax.swing.JFrame {
     private void SalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalidaActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalidaActionPerformed
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InterfazInicioSesion().setVisible(true);
-            }
-        });
-    }
+
+    private void ContrasenyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContrasenyaActionPerformed
+        String Contra = Contrasenya.getText();
+    }//GEN-LAST:event_ContrasenyaActionPerformed
+
+    private void IniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IniciarSesionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IniciarSesionMouseClicked
+
+    private void UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioActionPerformed
+        String User = Usuario.getText();
+    }//GEN-LAST:event_UsuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField Contrasenya;
