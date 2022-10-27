@@ -133,14 +133,15 @@ public class Operaciones {
   public void cargarRec(){
     // RECOMPENSAS
     try {
-      BufferedReader archivo = new BufferedReader(new FileReader("src/test/recompensas.txt")); // loader/reader archivo
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/recompensas.csv")); // loader/reader archivo
 
       String linea; // Linea actual
       while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
-        // System.out.println(linea);
-        String[] campos = linea.split(";"); // separar lineas en partes
-        Date fecha = new SimpleDateFormat("dd/mm/yyyy").parse(campos[1]);
-        coleccionRecompensas.add(new Recompensa(campos[0].charAt(0), fecha, Integer.parseInt(campos[2])));
+        if(!"".equals(linea)){
+            String[] campos = linea.split(";"); // separar lineas en partes
+            Date fecha = new SimpleDateFormat("dd/mm/yyyy").parse(campos[2]);
+            coleccionRecompensas.add(new Recompensa(Integer.parseInt(campos[0]),campos[1].charAt(0), fecha, Integer.parseInt(campos[3])));
+        }
       }
     } catch (FileNotFoundException ex) {
       Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,13 +155,15 @@ public class Operaciones {
   public void cargarMis() {
     // MISIONES
     try {
-      BufferedReader archivo = new BufferedReader(new FileReader("src/test/misiones.txt")); // loader/reader archivo
+      BufferedReader archivo = new BufferedReader(new FileReader("src/test/misiones.csv")); // loader/reader archivo
 
       String linea; // Linea actual
       while ((linea = archivo.readLine()) != null) { // Mientras existan lineas para leer
         // System.out.println(linea);
-        String[] campos = linea.split(";"); // separar lineas en partes
-        coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]),Integer.parseInt(campos[1]), campos[2].charAt(0),Boolean.parseBoolean(campos[3]), Integer.parseInt(campos[4])));
+        if(!"".equals(linea)){ //Si la linea NO esta vacia
+            String[] campos = linea.split(";"); // separar lineas en partes
+            coleccionMisiones.add(new Mision(Integer.parseInt(campos[0]),Integer.parseInt(campos[1]), campos[2].charAt(0),Boolean.parseBoolean(campos[3]), Integer.parseInt(campos[4])));
+        }
       }
     } catch (FileNotFoundException ex) {
       Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,8 +172,8 @@ public class Operaciones {
     }
   }
 
-  public void guardarDatos(String datos, String nombre){
-    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
+  public static void guardarDatos(String datos, String nombre){
+    String ruta = "src/test/"+nombre+".csv"; //Crear ruta en string
     File archivo = new File(ruta); //load archivo
     
     if(!archivo.exists()){
@@ -179,38 +182,47 @@ public class Operaciones {
       } catch (IOException e) {
       System.out.println(e);
       }
-      try{
-        FileWriter escritor = new FileWriter(archivo,true);
-        PrintWriter lapiz = new PrintWriter(escritor);
-        lapiz.print(datos);
-        lapiz.close();
-      } catch(IOException e){
-        System.out.println(e);
-      }
     }
-    else{
     try{
       FileWriter escritor = new FileWriter(archivo,true);
       PrintWriter lapiz = new PrintWriter(escritor);
-      lapiz.println("");
-      lapiz.print(datos);
+      lapiz.print(datos+"\n");
       lapiz.close();
       
     } catch (IOException e) {
       System.out.println(e);
     }
-    }
   }
   
   public boolean validarArchivo(String nombre){
-    String ruta = "src/test/"+nombre+".txt"; //Crear ruta en string
+    String ruta = "src/test/"+nombre+".csv"; //Crear ruta en string
     File archivo = new File(ruta); //load archivo
     
     if(!archivo.exists()){ //Validar
-        System.out.println("no existe");
         return false;
     }
     return true;
   }
   
+  public String buscarDatos(String datos, String nombre){
+    String ruta = "src/test/"+nombre+".csv"; //Crear ruta en string
+    File archivo = new File(ruta); //load archivo
+    
+    try {
+      BufferedReader lector = new BufferedReader(new FileReader(archivo)); //Declaracion lector archivo
+      String linea; // Linea actual
+      while ((linea = lector.readLine()) != null) { // Mientras existan lineas para leer
+        if(!"".equals(linea)){ //Linea vacia
+            if(datos.equals(linea)){
+                return linea;
+            }
+        }
+      }
+    } catch (FileNotFoundException ex) {
+      Logger.getLogger(Poo.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException e) {
+      System.out.println(e);   
+    }
+    return null;
+  }
 }  
