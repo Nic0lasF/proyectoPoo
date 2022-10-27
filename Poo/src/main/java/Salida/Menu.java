@@ -180,10 +180,34 @@ public class Menu {
                   break;
                 // MISIONES
                 case 1:
-
-                  break;
+                System.out.println("1. Buscar Misiones por id");
+                System.out.println("2. Buscar Misiones de un tipo menores a un tiempo maximo");
+                verificador = operaciones.ValidarInt();
+                
+                switch (verificador) {
+                    case 1:
+                        System.out.println("Ingrese el id de la mision que quiera buscar");
+                        int idMision = operaciones.ValidarInt();                        
+                        buscarMision(idMision);
+                        break;
+                    
+                    case 2:
+                        System.out.println("Ingrese el tipo de mision que quiera buscar (P pasos|R Reciclado|D Noticia Diaria)");
+                        char tipoMision = operaciones.ValidarChar();                       
+                        System.out.println("Ingrese el tiempo restante maximo");
+                        int tiempoRestante = operaciones.ValidarInt();         
+                        buscarMision(tipoMision, tiempoRestante);
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
                 // RECOMPENSAS
                 case 2:
+                System.out.println("Ingrese id de la recompensa que quiere buscar");
+                int idRecompensa = operaciones.ValidarInt();                        
+                buscarRecompensa(idRecompensa);                    
                   break;
                 // DEF
                 default:
@@ -222,4 +246,39 @@ public class Menu {
     coleccionRecompensas.add(recompensa);
     operaciones.guardarDatos(datos,"recompensas");
   }
+  public static void buscarMision(int id){
+      for (int i = 0 ; i < coleccionMisiones.size() ; i++){
+          if(coleccionMisiones.get(i).getIdMision() == id){
+              System.out.println("Mision Encontrada!");
+              coleccionMisiones.get(i).verMision();
+              return;
+          }
+      }
+      System.out.println("No se ha encontrado la mision");
+  }
+  public static void buscarMision(char tipo, int tiempo){
+      boolean flag = false; 
+      for (int i = 0 ; i < coleccionMisiones.size() ; i++){
+          if(Character.compare(coleccionMisiones.get(i).getTipoMision(), tipo) == 0 && coleccionMisiones.get(i).getTiempoCaducidad() < tiempo){
+              if(flag == false){
+                flag = true;
+                System.out.println("Mostrando misiones con tiempo restante menor a " + tiempo + "horas.");
+              }
+                coleccionMisiones.get(i).verMision();
+          }
+      }
+      if(flag == false){
+          System.out.println("No se ha encontrado ninguna mision");
+      }
+  }
+  public static void buscarRecompensa(int id){
+      for (int i = 0 ; i < coleccionRecompensas.size() ; i++){
+          if(coleccionRecompensas.get(i).getIdRecompensa() == id){
+              System.out.println("Mision Encontrada!");
+              coleccionRecompensas.get(i).verRecompensa();
+              return;
+          }
+      }
+      System.out.println("No se ha encontrado la mision");
+  }  
 }
