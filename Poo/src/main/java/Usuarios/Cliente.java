@@ -100,7 +100,7 @@ public class Cliente extends Usuario{
     System.out.println("Ingrese su nombre");
     this.nombre = operaciones.ValidarCadenaAlfa();
     
-    System.out.println("Ingrese su rut");
+    System.out.println("Ingrese su rut (sin puntos y sin guion)");
     this.rut = operaciones.ValidarRut();
     
     System.out.println("Ingrese su fecha de nacimiento con formato dd/MM/yyyy");
