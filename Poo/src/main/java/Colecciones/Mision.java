@@ -122,7 +122,6 @@ public class Mision {
         this.tiempoCaducidad = operaciones.ValidarInt();
       }while(tiempoCaducidad <= 0);
     } 
-    Entrada.close();
     return (this.idMision+";"+this.cantidadPuntos+";"+this.tipoMision+";"+this.estado+";"+this.tiempoCaducidad);
   }
 
