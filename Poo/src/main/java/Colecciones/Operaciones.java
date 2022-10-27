@@ -70,7 +70,7 @@ public class Operaciones {
     
     String cadena = Entrada.next();
     
-    while(!cadena.matches("[0-9+k]*\\w{9}")){
+    while(!cadena.matches("\\d{8,9}+[k]?")){
       System.out.println("Dato no válido");
       System.out.println("Ingrese su rut nuevamente.");
       cadena = Entrada.next();
