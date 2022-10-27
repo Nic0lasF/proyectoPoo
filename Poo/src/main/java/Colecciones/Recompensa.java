@@ -60,7 +60,7 @@ public class Recompensa {
   //Metodos
   public String crearRecompensa(){
     Scanner entrada = new Scanner(System.in);
-    String fechaEntrada;
+    String fechaEntrada = null;
     
     System.out.println("Ingrese tipo de Recompensa");
     do{
@@ -70,13 +70,22 @@ public class Recompensa {
     }while((tipoRecompensa != 'D') && (tipoRecompensa != 'B') && (tipoRecompensa != 'C'));
     
     System.out.println("Ingrese fecha de caducidad en formato dd/MM/yyyy");
-    fechaEntrada = entrada.next();
-    try {
-      Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
-      this.fechaCaducidad = fecha;
-    } catch (ParseException e){
-      e.printStackTrace();
+    
+    Date fecha = null;
+    
+    while(fecha == null){
+        fechaEntrada = entrada.next();
+        try {
+          fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
+        } catch (ParseException e){
+          e.printStackTrace();
+          if(fecha == null){
+            System.out.println("Dato no válido, ingrese nuevamente");
+        }
+        }    
     }
+    this.fechaCaducidad = fecha;
+    
     do{
       System.out.println("Ingrese el valor para canjear la recompensa (maximo 10000)");
       this.puntosParaCanjear = operaciones.ValidarInt();

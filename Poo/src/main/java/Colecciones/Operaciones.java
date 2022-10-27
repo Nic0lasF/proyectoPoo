@@ -77,19 +77,55 @@ public class Operaciones {
     }
     return cadena;
   }
-
+  
   public Date ValidarFecha(){
     
-    String fechaEntrada = Entrada.next();
+    
     Date fecha = null;
     
-    try {
-      fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
-    } catch (ParseException e){
-      e.printStackTrace();
+    while(fecha == null){
+        String fechaEntrada = Entrada.next();
+        try {
+          fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaEntrada);
+        } catch (ParseException e){
+        e.printStackTrace();
+        }
+        if(fecha == null){
+            System.out.println("Dato no válido, ingrese nuevamente");
+        }
+        
     }
-
+   
     return fecha;
+  }
+  
+  public String ValidarNUsuario(){
+      
+      System.out.println("Ingrese su nombre de usuario (min. 4 caracteres y max. 10)");
+      String cadena = Entrada.next();
+      
+      while(cadena.length() < 4 || cadena.length() > 10){
+        System.out.println("Dato no válido");
+        System.out.println("Vuelva a ingresarlo.");
+        cadena = Entrada.next();
+      }
+      System.out.println("Nombre de usuario ingresado exitosamente.");
+      return cadena;
+      
+  }
+   public String ValidarClave(){
+      
+      System.out.println("Ingrese su contraseña (minimo 4 caracteres y max 10)");
+      String cadena = Entrada.next();
+      
+      while(cadena.length() < 4 || cadena.length() > 10){
+        System.out.println("Dato no válido");
+        System.out.println("Vuelva a ingresarlo.");
+        cadena = Entrada.next();
+      }
+      System.out.println("Contraseña creada exitosamente.");
+      return cadena;
+      
   }
 
 //-----------------------Operaciones de Entrada/Salida--------------------------
