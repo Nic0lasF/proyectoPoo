@@ -4,41 +4,46 @@ import Colecciones.*;
 import java.util.Date;
 
 public class Cliente extends Usuario{
-  private String nombre;
-  private String rut; 
-  private Date fechaDeNacimiento; 
-  private int puntos; //Puntos acumulados del usuario
-  private int pasos; //Cantidad total de pasos dados por el usuario
-  private Mision[] misiones = new Mision[3] ; //Listado de misiones activas del usuario (max 3 por dia)
-  private Recompensa[] recompensas = new Recompensa[5]; //Listado de recompensas que puede reclamar el usuario (max 5)
-  private Operaciones operaciones = new Operaciones();
+    private String nombre;
+    private String rut; 
+    private Date fechaDeNacimiento; 
+    private int puntos; //Puntos acumulados del usuario
+    private int pasos; //Cantidad total de pasos dados por el usuario
+    private Mision[] misiones = new Mision[3] ; //Listado de misiones activas del usuario (max 3 por dia)
+    private Recompensa[] recompensas = new Recompensa[5]; //Listado de recompensas que puede reclamar el usuario (max 5)
+    private Operaciones operaciones = new Operaciones();
   
   //Constructor (datos default)}
   // El Usuario Si o Si debe de registrar su nombre y rut para poder identificarlo
-  public Cliente(String nombre, String rut, Date fecha, int puntos, int pasos){
-    this.nombre = nombre;
-    this.rut = rut;
-    this.fechaDeNacimiento = fecha;
-    this.puntos = puntos;
-    this.pasos = pasos;
+    public Cliente(String nombre, String rut, Date fechaDeNacimiento, int puntos, int pasos, String nombreUsuario, String clave){
+        super(nombreUsuario, clave);
+        this.nombre = nombre;
+        this.rut = rut;
+        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.puntos = puntos;
+        this.pasos = pasos;
   }
-  //SOBRECARGA DE CONSTRUCTORES
-  public Cliente(String nombre, String rut, Date fecha){
-    this.nombre = nombre;
-    this.rut = rut;
-    this.fechaDeNacimiento = fecha;
-  }
-  public Cliente(String nombre, String rut){
-    this.nombre = nombre;
-    this.rut = rut;
-  }
+
+    //SOBRECARGA DE CONSTRUCTORES
+    public Cliente(String nombre, String rut, Date fecha, String nombreUsuario, String clave) {
+        super(nombreUsuario, clave);
+        this.nombre = nombre;
+        this.rut = rut;
+        this.fechaDeNacimiento = fecha;
+    }
+    public Cliente(String nombre, String rut, String nombreUsuario, String clave){
+        super(nombreUsuario, clave);
+        this.nombre = nombre;
+        this.rut = rut;
+    }
   
-  public Cliente(String nombre, String rut, Date fecha, int puntos){
-    this.nombre = nombre;
-    this.rut = rut;
-    this.fechaDeNacimiento = fecha;
-    this.puntos = puntos;
-  }
+    public Cliente(String nombre, String rut, Date fecha, int puntos, String nombreUsuario, String clave){
+        super(nombreUsuario, clave);
+        this.nombre = nombre;
+        this.rut = rut;
+        this.fechaDeNacimiento = fecha;
+        this.puntos = puntos;
+    }
   
   //Accesores
   public String getNombre(){
