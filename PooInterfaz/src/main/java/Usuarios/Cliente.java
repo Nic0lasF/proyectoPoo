@@ -105,9 +105,9 @@ public class Cliente extends Usuario{
     this.fechaDeNacimiento = operaciones.ValidarFecha();
     
     System.out.println("Ingrese su nombre de usuario");
-    String nombreUsuario = operaciones.ValidarCadenaAlfa();
+    String nombreUsuario = operaciones.ValidarNUsuario();
     System.out.println("Ingrese su contraseña");
-    String clave = operaciones.ValidarCadenaAlfa();
+    String clave = operaciones.ValidarClave();
         
     setNombreUsuario(nombreUsuario);
     setClave(clave);
