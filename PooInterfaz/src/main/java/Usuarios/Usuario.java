@@ -1,12 +1,13 @@
 package Usuarios;
+import Colecciones.Operaciones;
 
 
-
-public abstract class Usuario {
+public class Usuario {
     
     private String nombreUsuario; // nombre unico
     private String clave;
-
+    private Operaciones operaciones = new Operaciones();
+    
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -23,5 +24,8 @@ public abstract class Usuario {
         this.clave = clave;
     }
     
-    public abstract void crearUsuario();
+    public void crearUsuario(){
+        this.nombreUsuario =  operaciones.ValidarNUsuario();
+        this.clave = operaciones.ValidarClave();
+    }
 }
