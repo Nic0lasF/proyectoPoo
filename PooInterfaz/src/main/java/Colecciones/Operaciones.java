@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.InputMismatchException;
 
 public class Operaciones {
     public static Scanner Entrada = new Scanner(System.in);    
@@ -28,54 +29,114 @@ public class Operaciones {
     
   public int ValidarRol(){
     
-    String cadena = Entrada.next();
+    int rol = 0;
+    boolean continuar;
     
-    while(!cadena.matches("[1-2]*")){
-      System.out.println("Número inválido, por favor ingrese otro");
-      cadena = Entrada.next();
-    }
-    return Integer.valueOf(cadena);
+    do{
+        try{
+            continuar = false;
+            rol = Entrada.nextInt();
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            continuar = true;
+            System.out.println("Número inválido, por favor ingrese otro");
+        }
+        
+    }while(continuar && (rol!=1 || rol!=2));
+    
+    return rol;
   }
 
   public int ValidarInt(){
     
-    String cadena = Entrada.next();
+    boolean continuar;
+    int numero = 0;
     
-    while(!cadena.matches("[0-9]*")){
-      System.out.println("Número inválido, por favor ingrese otro");
-      cadena = Entrada.next();
-    }
-    return Integer.valueOf(cadena);
-  }
-  public char ValidarChar(){
-        String cadena = Entrada.next();
-        if(cadena.length() == 1 && cadena.matches("[A-Z]*"))
-            return cadena.charAt(0);
-        else 
-           System.out.println("Dato no válido, vuelva a ingresar otro");
+    do{
+        try{
+            continuar = false;
+            numero = Entrada.nextInt();
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato inválido, por favor ingrese otro");
+            continuar = true;
+        }
         
-        return 0;
+    }while(continuar);
+
+    return numero;
+  }
+  
+  public char ValidarChar(){
+    String cadena = "0";
+    boolean continuar;
+    do{
+        try{
+            cadena = Entrada.next();
+            if(cadena.length() == 1 && cadena.matches("[A-Z]*")){
+                continuar = false;
+            }
+            else{
+                continuar = true;
+                System.out.println("Dato no válido, vuelva a ingresar otro");
+            }    
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato no válido, vuelva a ingresar otro");
+            continuar = true;
+        }
+    }while(continuar);
+    
+        return cadena.charAt(0);
 }
   public String ValidarCadenaAlfa(){
-    String cadena=Entrada.next();
-      
-    while(!cadena.matches("[A-Za-z]*")){
-      System.out.println("Dato no válido");
-      System.out.println("Vuelva a ingresarlo.");
-      cadena = Entrada.next();
-    }
-      return cadena;
+    String cadena = null;
+    boolean continuar;
+    do{
+        try{
+            cadena = Entrada.next();
+            if(cadena.matches("[A-Za-z]*")){
+                continuar = false;
+            }
+            else{
+                System.out.println("Dato no válido, vuelva a ingresar otro");
+                continuar = true;
+            }    
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato no válido, vuelva a ingresar otro");
+            continuar = true;
+        }
+    }while(continuar);
+    
+    return cadena;
+
   }
+  
   public String ValidarRut(){
     
-    String cadena = Entrada.next();
+    String cadena = null;
+    boolean continuar;
+    do{
+        try{
+            cadena = Entrada.next();
+            if(cadena.matches("\\d{8,9}+[k]?")){
+                continuar = false;
+            }
+            else{
+                System.out.println("Dato no válido, vuelva a ingresar otro");
+                continuar = true;
+            }    
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato no válido, vuelva a ingresar otro");
+            continuar = true;
+        }
+    }while(continuar);
     
-    while(!cadena.matches("\\d{8,9}+[k]?")){
-      System.out.println("Dato no válido");
-      System.out.println("Ingrese su rut nuevamente.");
-      cadena = Entrada.next();
-    }
     return cadena;
+    
+
   }
   
   public Date ValidarFecha(){
@@ -100,32 +161,52 @@ public class Operaciones {
   }
   
   public String ValidarNUsuario(){
-      
-      System.out.println("Ingrese su nombre de usuario (min. 4 caracteres y max. 10)");
-      String cadena = Entrada.next();
-      
-      while(cadena.length() < 4 || cadena.length() > 10){
-        System.out.println("Dato no válido");
-        System.out.println("Vuelva a ingresarlo.");
-        cadena = Entrada.next();
-      }
-      System.out.println("Nombre de usuario ingresado exitosamente.");
-      return cadena;
+    String cadena = null;
+    System.out.println("Ingrese su nombre de usuario (min. 4 caracteres y max. 10)");  
+    boolean continuar;
+    do{
+        try{
+            cadena = Entrada.next();
+            if(cadena.length() > 4 && cadena.length() < 10){
+                continuar = false;
+            }
+            else{
+                System.out.println("Dato no válido, vuelva a ingresar otro");
+                continuar = true;
+            }    
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato no válido, vuelva a ingresar otro");
+            continuar = true;
+        }
+    }while(continuar);
+    System.out.println("Nombre de usuario ingresado exitosamente.");
+    return cadena;
       
   }
    public String ValidarClave(){
-      
-      System.out.println("Ingrese su contraseña (minimo 4 caracteres y max 10)");
-      String cadena = Entrada.next();
-      
-      while(cadena.length() < 4 || cadena.length() > 10){
-        System.out.println("Dato no válido");
-        System.out.println("Vuelva a ingresarlo.");
-        cadena = Entrada.next();
-      }
-      System.out.println("Contraseña creada exitosamente.");
-      return cadena;
-      
+    String cadena = null;
+    System.out.println("Ingrese su contraseña (minimo 4 caracteres y max 10)");
+    boolean continuar;
+    do{
+        try{
+            cadena = Entrada.next();
+            if(cadena.length() > 4 && cadena.length() < 10){
+                continuar = false;
+            }
+            else{
+                System.out.println("Dato no válido, vuelva a ingresar otro");
+                continuar = true;
+            }    
+        }catch(InputMismatchException ex){
+            Entrada.next();
+            System.out.println("Dato no válido, vuelva a ingresar otro");
+            continuar = true;
+        }
+    }while(continuar);
+    System.out.println("Contraseña creada exitosamente.");
+    return cadena;  
+ 
   }
 
 //-----------------------Operaciones de Entrada/Salida--------------------------
