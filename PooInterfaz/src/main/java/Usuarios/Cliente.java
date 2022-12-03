@@ -100,6 +100,7 @@ public class Cliente extends Usuario{
   @Override
  public void crearUsuario(){
     
+    System.out.println("CREANDO NUEVO USUARIO CLIENTE");
     System.out.println("Ingrese su nombre");
     this.nombre = operaciones.ValidarCadenaAlfa();
     
