@@ -47,14 +47,16 @@ public class Menu {
                 // MISIONES
                 case 1:
                   System.out.println("----CREANDO MISION----");
-                  agregarMision();
+                  Mision mision = new Mision();
+                  mision.agregarMision();
                   System.out.println("----MISION CREADA----");
                   System.out.println(" ");
                   break;
                 // RECOMPENSAS
                 case 2:
                   System.out.println("----CREANDO RECOMPENSA----");
-                  agregarRecompensa();
+                  Recompensa recomp=new Recompensa();
+                  recomp.agregarRecompensa();
                   System.out.println("----RECOMPENSA CREADA----");
                   System.out.println(" ");
                   break;
@@ -123,8 +125,8 @@ public class Menu {
                 case 1:
                   System.out.println("Ingrese el id de la mision que quiera modificar");
                   int idMision = operaciones.ValidarInt(); 
-                  int index = buscarMision(idMision);
-                  if(index > -1){
+                  Mision index = buscarMision(idMision);
+                  if(index.getIdMision() > -1){
                       System.out.println("¿Desea modificar el tiempo de caducidad de la mision?");
                       System.out.println("1. Si");
                       System.out.println("2. No / Volver al menú");
@@ -132,7 +134,7 @@ public class Menu {
                       switch(verificador){
                           // si
                           case 1:
-                              modificarMision(index);
+                              index.modificarMision();
                               System.out.println("Mision modificada con exito!");
                               System.out.println(" ");
                             break;
@@ -153,33 +155,9 @@ public class Menu {
                 case 2:
                   System.out.println("Ingrese el id de la recompensa que quiera modificar");
                   System.out.println(" ");
-                  int idRecompensa = operaciones.ValidarInt(); 
-                  int indexR = buscarRecompensa(idRecompensa);
-                  if(indexR > -1){
-                      System.out.println("¿Desea modificar los puntos de canjeo de la recompensa?");
-                      System.out.println("1. Si");
-                      System.out.println("2. No / Volver al menú");
-                      System.out.println(" ");
-                      verificador = operaciones.ValidarInt();
-                      switch(verificador){
-                          // si
-                          case 1:
-                              modificarRecompensa(indexR);
-                              System.out.println("Recompensa modificada con exito!");
-                              System.out.println(" ");
-                            break;
-                          // no
-                          case 2:
-                              System.out.println("Volviendo al menu...");
-                              System.out.println(" ");
-                            break;
-                          //DEF
-                          default:
-                            System.out.println("Hubo un error, inténtelo de nuevo");
-                            System.out.println(" ");
-                            break;
-                      }
-                  }
+                  int idRecompensa = operaciones.ValidarInt();
+                  Recompensa recompensa = buscarRecompensa(idRecompensa);
+                  recompensa.case2(verificador);
                 break;
                 // DEF
                 default:
@@ -202,8 +180,10 @@ public class Menu {
                 // MISIONES
                 case 1:
                   System.out.println("Ingrese el id de la mision que quiera eliminar");
-                  int idMision = operaciones.ValidarInt();                        
-                  if(borrarMision(idMision) == true)
+                  
+                  int idMision = operaciones.ValidarInt();    
+                  Mision mision=buscarMision(idMision);
+                  if(mision.borrarMision() == true)
                       System.out.println("Mision borrada con exito!");
                   else
                       System.out.println("No se ha encontrado la mision");
@@ -212,8 +192,9 @@ public class Menu {
                 // RECOMPENSAS
                 case 2:
                   System.out.println("Ingrese el id de la recompensa que quiera eliminar");
-                  int idRecompensa = operaciones.ValidarInt();                        
-                  if(borrarRecompensa(idRecompensa) == true)
+                  int idRecompensa = operaciones.ValidarInt();
+                  Recompensa recom=buscarRecompensa(idRecompensa);
+                  if(recom.borrarRecompensa() == true)
                       System.out.println("Recompensa borrada con exito!");
                   else
                       System.out.println("No se ha encontrado la recompensa");
@@ -284,38 +265,19 @@ public class Menu {
         }
         System.out.println("-----------FIN-----------");
       }
-    
-    public void menuCliente(){
-        System.out.println("Modo usuario");
-        System.out.println(" ");
-        System.out.println("Lamentamos informar que este modo se encuentra en desarrollo, gracias por su comprension");
-    }
 
-  private void agregarMision() {
-    Mision mision = new Mision();
-    mision.crearMision();
-    coleccionMisiones.add(mision);
-    operaciones.guardarDatos(mision.getDatosString(),"misiones");
-  }
-
-  private void agregarRecompensa() {
-    Recompensa recompensa = new Recompensa();
-    recompensa.crearRecompensa();
-    coleccionRecompensas.add(recompensa);
-    operaciones.guardarDatos(recompensa.getDatosString(),"recompensas");
-  }
-
-  private int buscarMision(int id){
+  
+  private Mision buscarMision(int id){
       for (int i = 0 ; i < coleccionMisiones.size() ; i++){
           if(coleccionMisiones.get(i).getIdMision() == id){
               System.out.println("Mision Encontrada!");
               System.out.println("");
               coleccionMisiones.get(i).verMision();
-              return i;
+              return coleccionMisiones.get(i);
           }
       }
       System.out.println("No se ha encontrado la mision");
-      return -1;
+      return null;
   }
   private int buscarMision(char tipo, int tiempo){
       boolean flag = false; 
@@ -335,64 +297,17 @@ public class Menu {
       }
       return -1;
   }
-  private int buscarRecompensa(int id){
+  public Recompensa buscarRecompensa(int id){
       for (int i = 0 ; i < coleccionRecompensas.size() ; i++){
           if(coleccionRecompensas.get(i).getIdRecompensa() == id){
               System.out.println("Recompensa Encontrada!");
               System.out.println("");
-              coleccionRecompensas.get(i).verRecompensa();
-              return i;
+              coleccionRecompensas.get(i);
+              return coleccionRecompensas.get(i);
           }
       }
       System.out.println("No se ha encontrado la recompensa");
-      return -1;
+      return null;
   }
   
-  private boolean borrarMision(int id){
-      for (int i = 0 ; i < coleccionMisiones.size() ; i++){
-          if(coleccionMisiones.get(i).getIdMision() == id){
-              coleccionMisiones.remove(i);
-              operaciones.borrarDatos("misiones");
-              operaciones.recargarMisiones();
-              return true;
-          }
-      }
-      return false;   
-  }
-  
-  private boolean borrarRecompensa(int id){
-      for (int i = 0 ; i < coleccionRecompensas.size() ; i++){
-          if(coleccionRecompensas.get(i).getIdRecompensa() == id){
-              coleccionRecompensas.remove(i);
-              operaciones.borrarDatos("recompensas");
-              operaciones.recargarRecompensas();
-              return true;
-          }
-      }
-      return false;   
-  }
-  
-  private void modificarMision(int i){
-      int tiempoCaducidad;
-      do{
-        System.out.println("Ingrese el nuevo tiempo de caducidad...");
-        System.out.println(" ");
-        tiempoCaducidad = operaciones.ValidarInt();
-      }while(tiempoCaducidad <= 0);
-      coleccionMisiones.get(i).setTiempoCaducidad(tiempoCaducidad);
-      operaciones.borrarDatos("misiones");
-      operaciones.recargarMisiones();
-  }
-
-  private void modificarRecompensa(int i){
-      int puntosParaCanjear;
-    do{
-      System.out.println("Ingrese el valor para canjear la recompensa... (maximo 10000)");
-      puntosParaCanjear = operaciones.ValidarInt();
-    }while(puntosParaCanjear<= 0 && puntosParaCanjear >10000);
-      coleccionRecompensas.get(i).setPuntosParaCanjear(puntosParaCanjear);
-      operaciones.borrarDatos("recompensas");
-      operaciones.recargarRecompensas();
-  }
-}
 
