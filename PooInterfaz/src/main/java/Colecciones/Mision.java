@@ -85,19 +85,26 @@ public class Mision {
       return (this.idMision+";"+this.cantidadPuntos+";"+this.tipoMision+";"+this.estado+";"+this.tiempoCaducidad);
   }
   
-  public void crearMision(){
-    Scanner Entrada = new Scanner(System.in);
-    do{
+  public boolean validacionCantidaddePuntos(){
+      do{
+      System.out.println("Ingrese la cantidad de puntos de recompensa MAX 5000");
+      this.cantidadPuntos = operaciones.ValidarInt();
+      
+    }while((this.cantidadPuntos <= 0) || (this.cantidadPuntos > 5000));
+      return true;
+      
+  }
+  
+  public boolean validacionIDMision(){
+      do{
       System.out.println("Ingrese el id de la mision Numero MAYOR A -1");
       this.idMision = operaciones.ValidarInt();
     }while((this.idMision <= 0));
-    
-    do{
-      System.out.println("Ingrese la cantidad de puntos de recompensa MAX 5000");
-      this.cantidadPuntos = operaciones.ValidarInt();
-    }while((this.cantidadPuntos <= 0) || (this.cantidadPuntos > 5000));
-    
-    System.out.println("Ingrese tipo de misión");
+      return true;
+  }
+  
+  public boolean validacionTipoMision(){
+       System.out.println("Ingrese tipo de misión");
     do{
       System.out.println("P para Pasos | R para Reciclado | D para Noticia Diaria");
       this.tipoMision= operaciones.ValidarChar();
@@ -126,6 +133,29 @@ public class Mision {
         this.tiempoCaducidad = operaciones.ValidarInt();
       }while(tiempoCaducidad <= 0);
     } 
+      return true;
+  }
+  
+  public void crearMision(){
+    Scanner Entrada = new Scanner(System.in);
+    if(validacionIDMision()){
+        if(validacionCantidaddePuntos()){
+            validacionTipoMision();
+        }
+    };
+   
+    
+  }
+public void modificarMision(){
+      int tiempoCaducidad;
+      do{
+        System.out.println("Ingrese el nuevo tiempo de caducidad...");
+        System.out.println(" ");
+        tiempoCaducidad = operaciones.ValidarInt();
+      }while(tiempoCaducidad <= 0);
+      this.setTiempoCaducidad(tiempoCaducidad);
+      operaciones.borrarDatos("misiones");
+      operaciones.recargarMisiones();
   }
 
 
@@ -149,5 +179,41 @@ public class Mision {
         System.out.println("El tiempo restante para completar la mision es de "+ this.tiempoCaducidad+"hrs");
       System.out.println(" ");
     }
+  }
+  
+  private int buscarMision(char tipo, int tiempo){
+      boolean flag = false; 
+      for (int i = 0 ; i < coleccionMisiones.size() ; i++){
+          if(Character.compare(coleccionMisiones.get(i).getTipoMision(), tipo) == 0 && coleccionMisiones.get(i).getTiempoCaducidad() < tiempo){
+              if(flag == false){
+                flag = true;
+                System.out.println("Mostrando misiones con tiempo restante menor a " + tiempo + "horas.");
+              }
+                System.out.println("");
+                coleccionMisiones.get(i).verMision();
+                return i;
+          }
+      }
+      if(flag == false){
+          System.out.println("No se ha encontrado ninguna mision");
+      }
+      return -1;
+  }
+  
+  public boolean borrarMision(){
+      for (int i = 0 ; i < coleccionMisiones.size() ; i++){
+          if(coleccionMisiones.get(i).getIdMision() == this.getIdMision()){
+              coleccionMisiones.remove(i);
+              operaciones.borrarDatos("misiones");
+              operaciones.recargarMisiones();
+              return true;
+          }
+      }
+      return false;   
+  }
+  public void agregarMision() {
+    this.crearMision();
+    coleccionMisiones.add(this);
+    operaciones.guardarDatos(this.getDatosString(),"misiones");
   }
 }
